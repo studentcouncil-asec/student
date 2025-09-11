@@ -106,6 +106,8 @@
             border-radius: 8px;
             overflow: hidden;
             transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
         }
         
         .document-card:hover {
@@ -115,6 +117,9 @@
         
         .document-content {
             padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
         }
         
         .document-title {
@@ -126,6 +131,7 @@
         .document-description {
             margin-bottom: 1rem;
             color: #6c757d;
+            flex-grow: 1;
         }
         
         .document-meta {
@@ -144,6 +150,8 @@
             border-radius: 4px;
             text-decoration: none;
             transition: background-color 0.3s;
+            align-self: flex-start; /* Keep button left-aligned */
+            margin-top: auto; /* Push button to bottom */
         }
         
         .btn:hover {
