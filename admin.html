@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ադմին Պանել - Աբովյանի Պետական Էներգետիկական Քոլեջ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        .content-area {
+            transition: all 0.3s ease;
+        }
+        .image-preview {
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <h2 class="text-2xl font-bold mb-6 text-center">Մուտք Ադմին Պանել</h2>
+            <form id="loginForm">
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="username">Օգտանուն</label>
+                    <input type="text" id="username" class="w-full px-3 py-2 border rounded-lg" required>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 mb-2" for="password">Գաղտնաբառ</label>
+                    <input type="password" id="password" class="w-full px-3 py-2 border rounded-lg" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Մուտք</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="flex h-screen hidden" id="adminPanel">
+        <!-- Sidebar -->
+        <div class="sidebar bg-gray-800 text-white w-64 min-h-screen">
+            <div class="p-4">
+                <h1 class="text-xl font-bold">Ադմին Պանել</h1>
+                <p class="text-gray-400 text-sm">Աբովյանի Պետական Էներգետիկական Քոլեջ</p>
+            </div>
+            <nav class="mt-6">
+                <a href="#members" class="block py-2 px-4 hover:bg-gray-700 transition nav-link active" data-section="members">Ղեկավար Մարմին</a>
+                <a href="#committees" class="block py-2 px-4 hover:bg-gray-700 transition nav-link" data-section="committees">Հանձնաժողովներ</a>
+                <a href="#schedule" class="block py-2 px-4 hover:bg-gray-700 transition nav-link" data-section="schedule">Գործունեության Աղյուսակ</a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content-area flex-1 overflow-auto">
+            <!-- Members Section -->
+            <section id="members-section" class="p-6 section-content">
+                <h2 class="text-2xl font-bold mb-6">Ղեկավար Մարմին</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4">Պատվավոր Նախագահ</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Անուն Ազգանուն</label>
+                                <input type="text" class="w-full px-3 py-2 border rounded" value="Սերյոժա Խաչատրյան" data-field="honorary-president.name">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- President -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4">Նախագահ</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Անուն Ազգանուն</label>
+                                <input type="text" class="w-full px-3 py-2 border rounded" value="Ալեքս Վարդանյան" data-field="president.name">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vice Presidents and Secretary -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4">Փոխնախագահ (կազմ.)</h3>
+                        <div class="space-y-4">
+                            <input type="text" class="w-full px-3 py-2 border rounded" value="Անգելինա Հարությունյան" data-field="vice-president-org.name">
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4">Փոխնախագահ (դաստ.)</h3>
+                        <div class="space-y-4">
+                            <input type="text" class="w-full px-3 py-2 border rounded" value="Անի Կիզողյան" data-field="vice-president-edu.name">
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4">Քարտուղար</h3>
+                        <div class="space-y-4">
+                            <input type="text" class="w-full px-3 py-2 border rounded" value="Զոյա Միրաբյան" data-field="secretary.name">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Committees Section -->
+            <section id="committees-section" class="p-6 section-content hidden">
+                <h2 class="text-2xl font-bold mb-6">Հանձնաժողովներ</h2>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Events Committee -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4">Միջոցառումների Հանձնաժողով</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Ղեկավար</label>
+                                <input type="text" class="w-full px-3 py-2 border rounded mb-2" value="Միլենա Ավագյան" data-field="events.leader">
+                                <div class="members-container" data-committee="events">
+                                    <label class="block text-gray-700 mb-2">Անդամներ</label>
+                                    <div class="space-y-2">
+                                        <input type="text" class="w-full px-3 py-2 border rounded" value="Ինեսսա Մարգարյան" data-member="0">
+                                        <input type="text" class="w-full px-3 py-2 border rounded" value="Օվսաննա Ասրյան" data-member="1">
+                                    </div>
+                                    <button type="button" class="mt-2 bg-gray-200 px-3 py-1 rounded add-member" data-committee="events">+ Ավելացնել</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Press Committee -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4">Մամուլի Հանձնաժողով</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Ղեկավար</label>
+                                <input type="text" class="w-full px-3 py-2 border rounded mb-2" value="Մարսել Ներսիսյան" data-field="press.leader">
+                                <div class="members-container" data-committee="press">
+                                    <label class="block text-gray-700 mb-2">Անդամներ</label>
+                                    <div class="space-y-2">
+                                        <input type="text" class="w-full px-3 py-2 border rounded" value="Մարտին Սաֆարյան (SMM մասնագետ)" data-member="0">
+                                        <input type="text" class="w-full px-3 py-2 border rounded" value="Համեստ Բեջանյան (Multimedia մասնագետ)" data-member="1">
+                                    </div>
+                                    <button type="button" class="mt-2 bg-gray-200 px-3 py-1 rounded add-member" data-committee="press">+ Ավելացնել</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rights Committee -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4">Ուսանողների Իրավունքների Պաշտպանության Հանձնաժողով</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Ղեկավար</label>
+                                <input type="text" class="w-full px-3 py-2 border rounded mb-2" value="Նարե Մկրտչյան" data-field="rights.leader">
+                                <div class="members-container" data-committee="rights">
+                                    <label class="block text-gray-700 mb-2">Անդամներ</label>
+                                    <div class="space-y-2">
+                                        <input type="text" class="w-full px-3 py-2 border rounded" value="Լեո Ավետիսյան" data-member="0">
+                                        <input type="text" class="w-full px-3 py-2 border rounded" value="Սյուզի Դավթյան" data-member="1">
+                                        <input type="text" class="w-full px-3 py-2 border rounded" value="Սամվել Պետրոսյան" data-member="2">
+                                    </div>
+                                    <button type="button" class="mt-2 bg-gray-200 px-3 py-1 rounded add-member" data-committee="rights">+ Ավելացնել</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Schedule Section -->
+            <section id="schedule-section" class="p-6 section-content hidden">
+                <h2 class="text-2xl font-bold mb-6">Կազմակերպչական Գործունեության Աղյուսակ</h2>
+                
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold">Օրական Գործունեություն</h3>
+                            <button type="button" class="bg-blue-600 text-white px-4 py-2 rounded add-schedule-item">+ Ավելացնել Գրանցում</button>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ուսանող</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Խումբ</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Պատճառ</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ժամանակ</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Գործողություններ</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200 schedule-items">
+                                    <!-- Schedule items will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Save Button -->
+            <div class="fixed bottom-4 right-4">
+                <button type="button" class="bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-green-700 save-all">
+                    Պահպանել Բոլոր Փոփոխությունները
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple authentication
+        const ADMIN_CREDENTIALS = {
+            username: 'admin',
+            password: 'asec2025'
+        };
+
+        // Initial data structure
+        const initialData = {
+            members: {
+                'honorary-president': { name: 'Սերյոժա Խաչատրյան' },
+                'president': { name: 'Ալեքս Վարդանյան' },
+                'vice-president-org': { name: 'Անգելինա Հարությունյան' },
+                'vice-president-edu': { name: 'Անի Կիզողյան' },
+                'secretary': { name: 'Զոյա Միրաբյան' }
+            },
+            committees: {
+                'events': {
+                    leader: 'Միլենա Ավագյան',
+                    members: ['Ինեսսա Մարգարյան', 'Օվսաննա Ասրյան']
+                },
+                'press': {
+                    leader: 'Մարսել Ներսիսյան',
+                    members: ['Մարտին Սաֆարյան (SMM մասնագետ)', 'Համեստ Բեջանյան (Multimedia մասնագետ)']
+                },
+                'rights': {
+                    leader: 'Նարե Մկրտչյան',
+                    members: ['Լեո Ավետիսյան', 'Սյուզի Դավթյան', 'Սամվել Պետրոսյան']
+                }
+            },
+            schedule: [
+                { student: 'Անի Սիմոնյան', group: 'ԷԿ-41', reason: 'Միջոցառման պատրաստում', time: '10:00 - 12:00' },
+                { student: 'Տիգրան Աբրահամյան', group: 'ԷԴ-32', reason: 'Հոդվածի պատրաստում', time: '14:00 - 15:30' },
+                { student: 'Լուսինե Դանիելյան', group: 'ԷԿ-21', reason: 'Խորհրդակցություն', time: '09:00 - 10:30' }
+            ]
+        };
+
+        let currentData = JSON.parse(JSON.stringify(initialData));
+
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                document.getElementById('loginModal').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                loadData();
+            } else {
+                alert('Սխալ օգտանուն կամ գաղտնաբառ');
+            }
+        });
+
+        // Navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                
+                const section = this.getAttribute('data-section');
+                document.querySelectorAll('.section-content').forEach(s => s.classList.add('hidden'));
+                document.getElementById(section + '-section').classList.remove('hidden');
+            });
+        });
+
+        // Load data into form
+        function loadData() {
+            // Load members data
+            Object.keys(currentData.members).forEach(key => {
+                const input = document.querySelector(`[data-field="${key}.name"]`);
+                if (input) input.value = currentData.members[key].name;
+            });
+
+            // Load committees data
+            Object.keys(currentData.committees).forEach(committee => {
+                const leaderInput = document.querySelector(`[data-field="${committee}.leader"]`);
+                if (leaderInput) leaderInput.value = currentData.committees[committee].leader;
+                
+                const membersContainer = document.querySelector(`[data-committee="${committee}"]`);
+                if (membersContainer) {
+                    const memberInputs = membersContainer.querySelectorAll('[data-member]');
+                    memberInputs.forEach((input, index) => {
+                        if (currentData.committees[committee].members[index]) {
+                            input.value = currentData.committees[committee].members[index];
+                        }
+                    });
+                }
+            });
+
+            // Load schedule data
+            loadScheduleData();
+        }
+
+        // Schedule functionality
+        function loadScheduleData() {
+            const tbody = document.querySelector('.schedule-items');
+            tbody.innerHTML = '';
+            
+            currentData.schedule.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-6 py-4"><input type="text" class="w-full px-2 py-1 border rounded" value="${item.student}" data-index="${index}" data-field="student"></td>
+                    <td class="px-6 py-4"><input type="text" class="w-full px-2 py-1 border rounded" value="${item.group}" data-index="${index}" data-field="group"></td>
+                    <td class="px-6 py-4"><input type="text" class="w-full px-2 py-1 border rounded" value="${item.reason}" data-index="${index}" data-field="reason"></td>
+                    <td class="px-6 py-4"><input type="text" class="w-full px-2 py-1 border rounded" value="${item.time}" data-index="${index}" data-field="time"></td>
+                    <td class="px-6 py-4">
+                        <button type="button" class="bg-red-600 text-white px-3 py-1 rounded delete-schedule-item" data-index="${index}">Ջնջել</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Add schedule item
+        document.querySelector('.add-schedule-item').addEventListener('click', function() {
+            currentData.schedule.push({ student: '', group: '', reason: '', time: '' });
+            loadScheduleData();
+        });
+
+        // Delete schedule item
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('delete-schedule-item')) {
+                const index = parseInt(e.target.getAttribute('data-index'));
+                currentData.schedule.splice(index, 1);
+                loadScheduleData();
+            }
+        });
+
+        // Add committee member
+        document.querySelectorAll('.add-member').forEach(button => {
+            button.addEventListener('click', function() {
+                const committee = this.getAttribute('data-committee');
+                currentData.committees[committee].members.push('');
+                loadData();
+            });
+        });
+
+        // Save all data - SIMPLIFIED VERSION
+        document.querySelector('.save-all').addEventListener('click', function() {
+            // Collect members data
+            Object.keys(currentData.members).forEach(key => {
+                const input = document.querySelector(`[data-field="${key}.name"]`);
+                if (input) currentData.members[key].name = input.value;
+            });
+
+            // Collect committees data
+            Object.keys(currentData.committees).forEach(committee => {
+                const leaderInput = document.querySelector(`[data-field="${committee}.leader"]`);
+                if (leaderInput) currentData.committees[committee].leader = leaderInput.value;
+                
+                const membersContainer = document.querySelector(`[data-committee="${committee}"]`);
+                if (membersContainer) {
+                    const memberInputs = membersContainer.querySelectorAll('[data-member]');
+                    currentData.committees[committee].members = Array.from(memberInputs).map(input => input.value);
+                }
+            });
+
+            // Collect schedule data
+            currentData.schedule = [];
+            const rows = document.querySelectorAll('.schedule-items tr');
+            rows.forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                if (inputs.length >= 4) {
+                    currentData.schedule.push({
+                        student: inputs[0].value,
+                        group: inputs[1].value,
+                        reason: inputs[2].value,
+                        time: inputs[3].value
+                    });
+                }
+            });
+
+            // Save to localStorage
+            localStorage.setItem('asecCouncilData', JSON.stringify(currentData));
+            alert('Տվյալները հաջողությամբ պահպանված են');
+            console.log('Data saved:', currentData);
+        });
+
+        // Load saved data on startup
+        function loadSavedData() {
+            const saved = localStorage.getItem('asecCouncilData');
+            if (saved) {
+                currentData = JSON.parse(saved);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+            loadSavedData();
+        });
+    </script>
+</body>
+</html>
