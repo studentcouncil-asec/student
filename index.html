@@ -53,6 +53,16 @@
             border-radius: 0 8px 8px 0;
             flex: 1;
         }
+        .hidden {
+    display: none;
+}
+
+.image-preview {
+    max-width: 100px;
+    max-height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
     </style>
 </head>
 <body class="font-sans bg-gray-50">
@@ -507,85 +517,184 @@
             <p>© 2025 Աբովյանի Պետական Էներգետիկական Քոլեջի Ուսանողական Խորհուրդ. Բոլոր իրավունքները պաշտպանված են:</p>
         </div>
     </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
-    <script>
-        // Vanta.js background
-        VANTA.GLOBE({
-            el: "#vanta-bg",
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            scale: 1.00,
-            scaleMobile: 1.00,
-            color: 0x3b82f6,
-            backgroundColor: 0xf8fafc,
-            size: 0.8
-        });
+<script>
+    // Vanta.js background
+    VANTA.GLOBE({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        color: 0x3b82f6,
+        backgroundColor: 0xf8fafc,
+        size: 0.8
+    });
 
-        // Initialize AOS and feather
-        AOS.init();
-        feather.replace();
+    // Initialize AOS and feather
+    AOS.init();
+    feather.replace();
+    
+    // SIMPLIFIED data loading
+    function loadAdminData() {
+        const savedData = localStorage.getItem('asecCouncilData');
+        console.log('Loading from localStorage:', savedData);
         
-        // Form submission handling
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('membershipForm');
+        if (savedData) {
+            const data = JSON.parse(savedData);
+            console.log('Parsed data:', data);
             
-            form.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                // Show loading state
-                const submitBtn = form.querySelector('button[type="submit"]');
-                const originalText = submitBtn.textContent;
-                submitBtn.textContent = 'Ուղարկվում է...';
-                submitBtn.disabled = true;
-                
-                try {
-                    const formData = new FormData(form);
-                    const response = await fetch(form.action, {
-                        method: form.method,
-                        body: formData,
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        // Show success message
-                        document.getElementById('successMessage').style.display = 'block';
-                        form.reset();
-                        
-                        // Scroll to success message
-                        document.getElementById('successMessage').scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    } else {
-                        alert('Սխալ է տեղի ունեցել: Խնդրում ենք փորձել ավելի ուշ:');
-                    }
-                } catch (error) {
-                    alert('Ցանցային սխալ: Խնդրում ենք ստուգել ինտերնետային կապը:');
-                } finally {
-                    // Reset button state
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                }
-            });
+            // Update members - SIMPLE SELECTORS
+            updateMembersSimple(data);
+            
+            // Update committees
+            updateCommitteesSimple(data);
+            
+            // Update schedule
+            updateScheduleSimple(data);
+            
+            feather.replace();
+        }
+    }
+
+    function updateMembersSimple(data) {
+        // Get all member name elements in order
+        const memberNames = document.querySelectorAll('#members h3.text-xl');
+        console.log('Found member elements:', memberNames.length);
+        
+        // Order: honorary president, president, vice-president-org, vice-president-edu, secretary
+        const memberOrder = [
+            'honorary-president',
+            'president', 
+            'vice-president-org',
+            'vice-president-edu',
+            'secretary'
+        ];
+        
+        memberOrder.forEach((key, index) => {
+            if (memberNames[index] && data.members[key]) {
+                memberNames[index].textContent = data.members[key].name;
+                console.log(`Updated ${key}: ${data.members[key].name}`);
+            }
         });
-    </script>
+    }
+
+    function updateCommitteesSimple(data) {
+        // Get all committee sections
+        const committees = document.querySelectorAll('#members .grid.md\\:grid-cols-3 > div');
+        console.log('Found committees:', committees.length);
+        
+        committees.forEach((committee, index) => {
+            const committeeKey = index === 0 ? 'events' : index === 1 ? 'press' : 'rights';
+            const committeeData = data.committees[committeeKey];
+            
+            if (committeeData) {
+                // Update leader
+                const leaderSpan = committee.querySelector('.font-medium');
+                if (leaderSpan) {
+                    leaderSpan.textContent = committeeData.leader + ' (ղեկավար)';
+                }
+                
+                // Update members
+                const memberSpans = committee.querySelectorAll('.text-gray-600.text-sm');
+                committeeData.members.forEach((member, memberIndex) => {
+                    if (memberSpans[memberIndex]) {
+                        memberSpans[memberIndex].textContent = member;
+                    }
+                });
+                
+                console.log(`Updated committee ${committeeKey}`);
+            }
+        });
+    }
+
+    function updateScheduleSimple(data) {
+        const tbody = document.querySelector('table tbody');
+        if (tbody && data.schedule) {
+            tbody.innerHTML = '';
+            
+            data.schedule.forEach((item) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                                <i data-feather="user" class="w-6 h-6 text-gray-500"></i>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">${item.student || ''}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">${item.group || ''}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">${item.reason || ''}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">${item.time || ''}</div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            console.log('Updated schedule with', data.schedule.length, 'items');
+        }
+    }
+
+    // Load data when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Page loaded, loading admin data...');
+        loadAdminData();
+        
+        const form = document.getElementById('membershipForm');
+        
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const phoneInput = document.getElementById('phone');
+            phoneInput.value = '+374' + phoneInput.value;
+            
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Ուղարկվում է...';
+            submitBtn.disabled = true;
+            
+            try {
+                const formData = new FormData(form);
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    document.getElementById('successMessage').style.display = 'block';
+                    form.reset();
+                    document.getElementById('successMessage').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                } else {
+                    alert('Սխալ է տեղի ունեցել: Խնդրում ենք փորձել ավելի ուշ:');
+                }
+            } catch (error) {
+                alert('Ցանցային սխալ: Խնդրում ենք ստուգել ինտերնետային կապը:');
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                phoneInput.value = phoneInput.value.replace('+374', '');
+            }
+        });
+    });
+
+    // Refresh data every 3 seconds
+    setInterval(loadAdminData, 3000);
+</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
