@@ -598,15 +598,32 @@
                     leaderSpan.textContent = committeeData.leader + ' (ղեկավար)';
                 }
                 
-                // Update members
-                const memberSpans = committee.querySelectorAll('.text-gray-600.text-sm');
-                committeeData.members.forEach((member, memberIndex) => {
-                    if (memberSpans[memberIndex]) {
-                        memberSpans[memberIndex].textContent = member;
-                    }
-                });
+                // Update members - DYNAMICALLY CREATE MEMBER ELEMENTS
+                const membersContainer = committee.querySelector('.border-t.pt-4');
+                if (membersContainer) {
+                    // Remove existing member elements (keep only the title)
+                    const existingMembers = membersContainer.querySelectorAll('.flex.items-center.mb-2');
+                    existingMembers.forEach((member, i) => {
+                        if (i > 0) member.remove(); // Keep only the first element (title)
+                    });
+                    
+                    // Add all members dynamically
+                    committeeData.members.forEach((member, memberIndex) => {
+                        const memberDiv = document.createElement('div');
+                        memberDiv.className = memberIndex === 0 ? 'flex items-center mb-2' : 'flex items-center mb-2 ml-4';
+                        
+                        memberDiv.innerHTML = `
+                            <div class="${memberIndex === 0 ? 'w-10 h-10' : 'w-8 h-8'} rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                                <i data-feather="user" class="${memberIndex === 0 ? 'w-6 h-6' : 'w-4 h-4'} text-gray-500"></i>
+                            </div>
+                            <span class="${memberIndex === 0 ? 'text-gray-700 font-medium' : 'text-gray-600 text-sm'}">${member}</span>
+                        `;
+                        
+                        membersContainer.appendChild(memberDiv);
+                    });
+                }
                 
-                console.log(`Updated committee ${committeeKey}`);
+                console.log(`Updated committee ${committeeKey} with ${committeeData.members.length} members`);
             }
         });
     }
