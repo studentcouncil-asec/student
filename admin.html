@@ -22,6 +22,23 @@
         .hidden {
             display: none;
         }
+        .member-input-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .member-input {
+            flex: 1;
+        }
+        .remove-member {
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -123,14 +140,13 @@
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-gray-700 mb-2">Ղեկավար</label>
-                                <input type="text" class="w-full px-3 py-2 border rounded mb-2" value="Միլենա Ավագյան" data-field="events.leader">
+                                <input type="text" class="w-full px-3 py-2 border rounded mb-4" value="Միլենա Ավագյան" data-field="events.leader">
                                 <div class="members-container" data-committee="events">
                                     <label class="block text-gray-700 mb-2">Անդամներ</label>
-                                    <div class="space-y-2">
-                                        <input type="text" class="w-full px-3 py-2 border rounded" value="Ինեսսա Մարգարյան" data-member="0">
-                                        <input type="text" class="w-full px-3 py-2 border rounded" value="Օվսաննա Ասրյան" data-member="1">
+                                    <div class="members-list space-y-2">
+                                        <!-- Members will be loaded here dynamically -->
                                     </div>
-                                    <button type="button" class="mt-2 bg-gray-200 px-3 py-1 rounded add-member" data-committee="events">+ Ավելացնել</button>
+                                    <button type="button" class="mt-2 bg-blue-600 text-white px-3 py-1 rounded add-member-btn" data-committee="events">+ Ավելացնել Անդամ</button>
                                 </div>
                             </div>
                         </div>
@@ -142,14 +158,13 @@
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-gray-700 mb-2">Ղեկավար</label>
-                                <input type="text" class="w-full px-3 py-2 border rounded mb-2" value="Մարսել Ներսիսյան" data-field="press.leader">
+                                <input type="text" class="w-full px-3 py-2 border rounded mb-4" value="Մարսել Ներսիսյան" data-field="press.leader">
                                 <div class="members-container" data-committee="press">
                                     <label class="block text-gray-700 mb-2">Անդամներ</label>
-                                    <div class="space-y-2">
-                                        <input type="text" class="w-full px-3 py-2 border rounded" value="Մարտին Սաֆարյան (SMM մասնագետ)" data-member="0">
-                                        <input type="text" class="w-full px-3 py-2 border rounded" value="Համեստ Բեջանյան (Multimedia մասնագետ)" data-member="1">
+                                    <div class="members-list space-y-2">
+                                        <!-- Members will be loaded here dynamically -->
                                     </div>
-                                    <button type="button" class="mt-2 bg-gray-200 px-3 py-1 rounded add-member" data-committee="press">+ Ավելացնել</button>
+                                    <button type="button" class="mt-2 bg-blue-600 text-white px-3 py-1 rounded add-member-btn" data-committee="press">+ Ավելացնել Անդամ</button>
                                 </div>
                             </div>
                         </div>
@@ -161,15 +176,13 @@
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-gray-700 mb-2">Ղեկավար</label>
-                                <input type="text" class="w-full px-3 py-2 border rounded mb-2" value="Նարե Մկրտչյան" data-field="rights.leader">
+                                <input type="text" class="w-full px-3 py-2 border rounded mb-4" value="Նարե Մկրտչյան" data-field="rights.leader">
                                 <div class="members-container" data-committee="rights">
                                     <label class="block text-gray-700 mb-2">Անդամներ</label>
-                                    <div class="space-y-2">
-                                        <input type="text" class="w-full px-3 py-2 border rounded" value="Լեո Ավետիսյան" data-member="0">
-                                        <input type="text" class="w-full px-3 py-2 border rounded" value="Սյուզի Դավթյան" data-member="1">
-                                        <input type="text" class="w-full px-3 py-2 border rounded" value="Սամվել Պետրոսյան" data-member="2">
+                                    <div class="members-list space-y-2">
+                                        <!-- Members will be loaded here dynamically -->
                                     </div>
-                                    <button type="button" class="mt-2 bg-gray-200 px-3 py-1 rounded add-member" data-committee="rights">+ Ավելացնել</button>
+                                    <button type="button" class="mt-2 bg-blue-600 text-white px-3 py-1 rounded add-member-btn" data-committee="rights">+ Ավելացնել Անդամ</button>
                                 </div>
                             </div>
                         </div>
@@ -267,24 +280,27 @@
                 document.getElementById('loginModal').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
                 loadData();
+                setupEventListeners();
             } else {
                 alert('Սխալ օգտանուն կամ գաղտնաբառ');
             }
         });
 
         // Navigation
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-                
-                const section = this.getAttribute('data-section');
-                document.querySelectorAll('.section-content').forEach(s => s.classList.add('hidden'));
-                document.getElementById(section + '-section').classList.remove('hidden');
+        function setupNavigation() {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const section = this.getAttribute('data-section');
+                    document.querySelectorAll('.section-content').forEach(s => s.classList.add('hidden'));
+                    document.getElementById(section + '-section').classList.remove('hidden');
+                });
             });
-        });
+        }
 
         // Load data into form
         function loadData() {
@@ -299,22 +315,32 @@
                 const leaderInput = document.querySelector(`[data-field="${committee}.leader"]`);
                 if (leaderInput) leaderInput.value = currentData.committees[committee].leader;
                 
-                const membersContainer = document.querySelector(`[data-committee="${committee}"]`);
-                if (membersContainer) {
-                    const memberInputs = membersContainer.querySelectorAll('[data-member]');
-                    memberInputs.forEach((input, index) => {
-                        if (currentData.committees[committee].members[index]) {
-                            input.value = currentData.committees[committee].members[index];
-                        }
-                    });
-                }
+                loadCommitteeMembers(committee);
             });
 
             // Load schedule data
             loadScheduleData();
         }
 
-        // Schedule functionality
+        // Load committee members
+        function loadCommitteeMembers(committee) {
+            const container = document.querySelector(`[data-committee="${committee}"] .members-list`);
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            currentData.committees[committee].members.forEach((member, index) => {
+                const memberDiv = document.createElement('div');
+                memberDiv.className = 'member-input-group';
+                memberDiv.innerHTML = `
+                    <input type="text" class="member-input w-full px-3 py-2 border rounded" value="${member}" data-committee="${committee}" data-index="${index}">
+                    <button type="button" class="remove-member" data-committee="${committee}" data-index="${index}">×</button>
+                `;
+                container.appendChild(memberDiv);
+            });
+        }
+
+        // Load schedule data
         function loadScheduleData() {
             const tbody = document.querySelector('.schedule-items');
             tbody.innerHTML = '';
@@ -334,31 +360,45 @@
             });
         }
 
-        // Add schedule item
-        document.querySelector('.add-schedule-item').addEventListener('click', function() {
-            currentData.schedule.push({ student: '', group: '', reason: '', time: '' });
-            loadScheduleData();
-        });
-
-        // Delete schedule item
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('delete-schedule-item')) {
-                const index = parseInt(e.target.getAttribute('data-index'));
-                currentData.schedule.splice(index, 1);
-                loadScheduleData();
-            }
-        });
-
-        // Add committee member
-        document.querySelectorAll('.add-member').forEach(button => {
-            button.addEventListener('click', function() {
-                const committee = this.getAttribute('data-committee');
-                currentData.committees[committee].members.push('');
-                loadData();
+        // Setup event listeners
+        function setupEventListeners() {
+            // Add committee member
+            document.querySelectorAll('.add-member-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const committee = this.getAttribute('data-committee');
+                    currentData.committees[committee].members.push('');
+                    loadCommitteeMembers(committee);
+                });
             });
-        });
 
-        // Save all data - SIMPLIFIED VERSION
+            // Remove committee member
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('remove-member')) {
+                    const committee = e.target.getAttribute('data-committee');
+                    const index = parseInt(e.target.getAttribute('data-index'));
+                    
+                    currentData.committees[committee].members.splice(index, 1);
+                    loadCommitteeMembers(committee);
+                }
+            });
+
+            // Add schedule item
+            document.querySelector('.add-schedule-item').addEventListener('click', function() {
+                currentData.schedule.push({ student: '', group: '', reason: '', time: '' });
+                loadScheduleData();
+            });
+
+            // Delete schedule item
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('delete-schedule-item')) {
+                    const index = parseInt(e.target.getAttribute('data-index'));
+                    currentData.schedule.splice(index, 1);
+                    loadScheduleData();
+                }
+            });
+        }
+
+        // Save all data
         document.querySelector('.save-all').addEventListener('click', function() {
             // Collect members data
             Object.keys(currentData.members).forEach(key => {
@@ -371,11 +411,17 @@
                 const leaderInput = document.querySelector(`[data-field="${committee}.leader"]`);
                 if (leaderInput) currentData.committees[committee].leader = leaderInput.value;
                 
-                const membersContainer = document.querySelector(`[data-committee="${committee}"]`);
-                if (membersContainer) {
-                    const memberInputs = membersContainer.querySelectorAll('[data-member]');
-                    currentData.committees[committee].members = Array.from(memberInputs).map(input => input.value);
-                }
+                // Collect members from input fields
+                const memberInputs = document.querySelectorAll(`[data-committee="${committee}"]`);
+                currentData.committees[committee].members = [];
+                memberInputs.forEach(container => {
+                    const inputs = container.querySelectorAll('.member-input');
+                    inputs.forEach(input => {
+                        if (input.value.trim() !== '') {
+                            currentData.committees[committee].members.push(input.value);
+                        }
+                    });
+                });
             });
 
             // Collect schedule data
@@ -396,7 +442,6 @@
             // Save to localStorage
             localStorage.setItem('asecCouncilData', JSON.stringify(currentData));
             alert('Տվյալները հաջողությամբ պահպանված են');
-            console.log('Data saved:', currentData);
         });
 
         // Load saved data on startup
@@ -411,6 +456,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             feather.replace();
             loadSavedData();
+            setupNavigation();
         });
     </script>
 </body>
