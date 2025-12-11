@@ -8,6 +8,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="MyWebSite" />
     <link rel="manifest" href="favicon/site.webmanifest" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -323,7 +324,10 @@
         </div>
     </footer>
 
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    
     <script>
+        AOS.init();
         // Mobile navigation menu functionality
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
             document.querySelector('.nav-menu').classList.toggle('active');
@@ -341,4 +345,5 @@
     </script>
 </body>
 </html>
+
 
