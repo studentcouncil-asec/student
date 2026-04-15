@@ -20,10 +20,9 @@
     <link rel="apple-touch-icon" href="https://studentcouncil-asec.github.io/student/favicon/apple-touch-icon.png">
     <meta property= "og:image" content="https://drive.google.com/uc?export=view&id=1R5YEJf3xu2-Bl1fc_etCUmKj0v0jso6-">
 
-    <!-- AOS (animations on scroll) -->
+    <!-- AOS -->
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 
-    <!-- Main Styles -->
     <style>
         :root {
             --primary-color: #ffffff;
@@ -34,10 +33,8 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
-
         body { background: var(--primary-color); color: var(--text-color); line-height: 1.6; }
 
-        /* Header */
         header {
             background: var(--primary-color);
             padding: 1rem 2rem;
@@ -47,62 +44,28 @@
             z-index: 100;
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
+        a { text-decoration: none; color: inherit; }
 
         .header-container {
             display: flex; justify-content: space-between; align-items: center;
             max-width: 1200px; margin: 0 auto;
         }
 
-       .logo { 
-    font-size: 1.5rem; 
-    font-weight: 700; 
-    color: var(--accent-color); 
-    text-decoration: none; 
-}
-
-    .mobile-menu-btn,
-    .mobile-menu-btn:hover,
-    .mobile-menu-btn:focus,
-    .mobile-menu-btn:active {
-        background: none !important;
-    }
-        
-        .nav-menu {
-            display: flex; 
-            list-style: none; }
-
-        .nav-menu li { 
-            margin-left: 1.5rem; }
-
-        .nav-menu a { 
-            color: var(--text-color); 
-            text-decoration: none; 
-            transition: color 0.3s;
-        }
-
-        .nav-menu a:hover { 
+        .logo { 
+            font-size: 1.5rem; 
+            font-weight: 700; 
             color: var(--accent-color); 
         }
 
+        .nav-menu { display: flex; list-style: none; }
+        .nav-menu li { margin-left: 1.5rem; }
+
         .mobile-menu-btn {
-            width: 30px;
-            height: 30px;
-            padding: 0;
-            line-height: 28px;
-            display: none;
-            background: none;
-            border: none;
-            font-size: 22px;
-            cursor: pointer;
-            color: var(--accent-color);
+            display:none;
         }
 
-        /* Complaints Form */
         #feedback { padding: 4rem 1.5rem; background: #f3f4f6; }
+
         .feedback-box {
             background: white; padding: 2rem; border-radius: 1rem;
             box-shadow: 0 4px 14px rgba(0,0,0,0.1);
@@ -114,124 +77,173 @@
             padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;
         }
 
-        textarea {
+        textarea, input {
             width: 100%; padding: 12px; border-radius: 8px;
-            border: 1px solid #ccc; resize: vertical; font-size: 1rem;
+            border: 1px solid #ccc; font-size: 1rem;
+            margin-bottom: 10px;
         }
 
         button {
             width: 100%; padding: 12px; border: none;
-            background: #2563eb; color: white; font-size: 1rem;
+            background: #2563eb; color: white;
             border-radius: 8px; cursor: pointer;
-            transition: 0.3s;
         }
-        button:hover { background: #1e3a8a; }
 
-        /* Documents Section */
-        .container { max-width: 1200px; margin: auto; padding: 2rem; }
-        .documents-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(250px,1fr)); gap: 1.5rem; }
-        .document-card {
-            background: var(--secondary-color);
-            border-radius: 8px; padding: 1.5rem;
-            transition: 0.3s; box-shadow: 0 0 0 rgba(0,0,0,0);
-        }
-        .document-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .document-title { color: var(--accent-color); font-size: 1.2rem; margin-bottom: 0.5rem; }
-        
-        /* Footer */
         footer {
             background: var(--accent-color);
             color: white; text-align: center; padding: 2rem;
             margin-top: 3rem;
         }
 
-        /* Mobile */
-    @media (max-width: 768px) {
-        .mobile-menu-btn {sidplay:block;}
-        .nav-menu {
+        .field-error {
+            color: #dc2626;
+            font-size: 0.85rem;
+            margin-top: -6px;
+            margin-bottom: 8px;
             display: none;
-            flex-direction: column;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background-color: var(--primary-color);
-            border-top: 1px solid var(--border-color);
-            padding: 1rem;
-        }
-            .nav-menu.active { 
-                display: flex; 
-            }
-            
-            .nav-menu li { 
-                margin: 0.5rem 0; 
-            }
-
-            .mobile-menu-btn{
-                display: block;
-            }
-
-            .documents-grid{
-                grid-template-columns: 1fr;
-            }
-
-            .page-title{
-                font-size: 2rem;
-            }
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <div class="header-container">
-            <a href="https://studentcouncil-asec.github.io/student/index.html" class="logo">ՈՒսանողական Խորհուրդ</a>
-            
-            <button class="mobile-menu-btn">☰</button>
-            
-            <ul class="nav-menu">
-                <li><a href="https://studentcouncil-asec.github.io/student/index.html">Գլխավոր</a></li>
-                <li><a href="https://studentcouncil-asec.github.io/student/dox.html">Փաստաթղթեր</a></li>
-                <li><a href="https://studentcouncil-asec.github.io/student/asuggestionorcomplaint.html">Առաջարկ/Բողոք</a></li>
-            </ul>
-        </div>
-    </header>
 
-<!-- Complaints & Suggestions Section -->
+<header>
+    <div class="header-container">
+        <a href="#" class="logo">ՈՒսանողական Խորհուրդ</a>
+    </div>
+</header>
+
 <section id="feedback">
-    <h2 class="page-title" style="text-align:center; color:#2c3e50; font-size:2rem;" data-aos="fade-up">
-        ՈՒղարկեք ձեր բողոքը կամ առաջարկը
-    </h2>
+    <h2 style="text-align:center;">Ուղարկեք ձեր բողոքը կամ առաջարկը</h2>
 
-    <div class="feedback-box" data-aos="fade-up">
+    <div class="feedback-box">
         <div class="info-box">
-            Ձեր տվյալները չեն պահպանվում, նամակը ՈՒսանողների իրավունքների պաշտպանության հանձնաժողովին փոխանցվում է անանուն։
+            Ձեր տվյալները չեն պահպանվում։ Ցանկության դեպքում կարող եք թողնել կապի տվյալներ։
         </div>
 
-        <form action="https://formspree.io/f/mgvgrpgp" method="POST">
+        <form id="feedbackForm" action="https://formspree.io/f/mgvgrpgp" method="POST">
+
             <input type="hidden" name="committee" value="boxoq_arajarkner">
 
-            <label style="font-weight:600; margin-bottom:6px; display:block;">Ձեր նամակը</label>
-            <textarea name="message" rows="6" required placeholder="Գրեք ձեր բողոքը կամ առաջարկը այստեղ..."></textarea>
+            <label>Ձեր նամակը</label>
+            <textarea name="message" rows="6" required></textarea>
 
-            <button type="submit">ՈՒղարկել անանուն նամակ</button>
+            <label style="font-weight:600; margin-top:12px; display:block;">Էլ. փոստ (ոչ պարտադիր)</label>
+            <input 
+                type="text" 
+                name="email" 
+                id="emailField"
+                placeholder="example@gmail.com"
+                style="width:100%; padding:12px; border-radius:8px; border:1px solid #ccc; margin-bottom:4px;"
+            >
+            <div class="field-error" id="emailError">Մուտքագրեք ճիշտ էլ. փոստ (պետք է պարունակի @ և .)</div>
+
+            <label style="font-weight:600; margin-bottom:6px; display:block;">Հեռախոսահամար (ոչ պարտադիր)</label>
+            <input 
+                type="tel" 
+                name="phone" 
+                id="phone"
+                placeholder="+374 55 55 55 55"
+                style="width:100%; padding:12px; border-radius:8px; border:1px solid #ccc;"
+            >
+
+            <div style="margin-top: 14px;">
+                <button type="submit">Ուղարկել</button>
+            </div>
         </form>
     </div>
 </section>
 
-    <footer>
-        <div class="footer-content">
-            <p>© 2026 Ուսանողական Խորհուրդ. Բոլոր իրավունքները պաշտպանված են:</p>
-            <p>Կապնվել մեզ հետ՝ <a href="mailto:student.council.asec@gmail.com"><span>student.council.asec@gmail.com</span></a></p>
-        </div>
-    </footer>
+<footer>
+    <p>© 2026 Ուսանողական Խորհուրդ</p>
+</footer>
 
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
-    AOS.init();
+    const phoneInput = document.getElementById('phone');
+    const emailInput = document.getElementById('emailField');
+    const emailError = document.getElementById('emailError');
+    const form = document.getElementById('feedbackForm');
 
-    document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
-        document.querySelector('.nav-menu').classList.toggle('active');
+    /* ── Phone formatting ── */
+    phoneInput.addEventListener('focus', function () {
+        if (this.value === '') {
+            this.value = '+374 ';
+        }
+    });
+
+    phoneInput.addEventListener('blur', function () {
+        if (this.value === '+374 ' || this.value === '+374') {
+            this.value = '';
+        }
+    });
+
+    phoneInput.addEventListener('input', function () {
+        let raw = this.value;
+
+        // Keep the +374 prefix always
+        const prefix = '+374 ';
+        if (!raw.startsWith(prefix)) {
+            // Allow user to type before prefix is fully there
+            if (raw.startsWith('+374') && raw.length < prefix.length) {
+                return;
+            }
+            raw = prefix + raw.replace(/^\+374\s?/, '');
+        }
+
+        // Extract only the digits after +374
+        let digits = raw.slice(prefix.length).replace(/\D/g, '');
+
+        // Limit to 8 digits (XX XX XX XX)
+        digits = digits.slice(0, 8);
+
+        // Format: XX XX XX XX
+        let formatted = '';
+        for (let i = 0; i < digits.length; i++) {
+            if (i > 0 && i % 2 === 0) formatted += ' ';
+            formatted += digits[i];
+        }
+
+        this.value = prefix + formatted;
+    });
+
+    // Prevent deleting the prefix with backspace/delete
+    phoneInput.addEventListener('keydown', function (e) {
+        const prefix = '+374 ';
+        if ((e.key === 'Backspace' || e.key === 'Delete') && this.value.length <= prefix.length) {
+            e.preventDefault();
+        }
+    });
+
+    /* ── Email validation (only checks @ and .) ── */
+    function validateEmail(value) {
+        if (value === '') return true; // optional field
+        return value.includes('@') && value.includes('.');
+    }
+
+    emailInput.addEventListener('blur', function () {
+        if (!validateEmail(this.value)) {
+            emailError.style.display = 'block';
+            this.style.borderColor = '#dc2626';
+        } else {
+            emailError.style.display = 'none';
+            this.style.borderColor = '#ccc';
+        }
+    });
+
+    emailInput.addEventListener('input', function () {
+        if (validateEmail(this.value)) {
+            emailError.style.display = 'none';
+            this.style.borderColor = '#ccc';
+        }
+    });
+
+    form.addEventListener('submit', function (e) {
+        if (!validateEmail(emailInput.value)) {
+            e.preventDefault();
+            emailError.style.display = 'block';
+            emailInput.style.borderColor = '#dc2626';
+            emailInput.focus();
+        }
     });
 </script>
 
