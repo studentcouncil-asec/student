@@ -60,8 +60,66 @@
         .nav-menu { display: flex; list-style: none; }
         .nav-menu li { margin-left: 1.5rem; }
 
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent-color);
+        }
+
         .mobile-menu-btn {
-            display:none;
+            width: 30px;
+            height: 30px;
+            font-size: 22px;
+            padding: 0;
+            line-height: 28px;
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 1rem;
+            }
+
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--primary-color);
+                border-top: 1px solid var(--border-color);
+                padding: 1rem;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-menu li {
+                margin: 0.5rem 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
         }
 
         #feedback { padding: 4rem 1.5rem; background: #f3f4f6; }
@@ -109,7 +167,15 @@
 
 <header>
     <div class="header-container">
-        <a href="#" class="logo">ՈՒսանողական Խորհուրդ</a>
+        <a href="https://studentcouncil-asec.github.io/student/index.html" class="logo">ՈՒսանողական Խորհուրդ</a>
+
+        <button class="mobile-menu-btn">☰</button>
+
+        <ul class="nav-menu">
+            <li><a href="https://studentcouncil-asec.github.io/student/index.html">Գլխավոր</a></li>
+            <li><a href="https://studentcouncil-asec.github.io/student/dox.html">Փաստաթղթեր</a></li>
+            <li><a href="https://studentcouncil-asec.github.io/student/asuggestionorcomplaint.html">Առաջարկ/Բողոք</a></li>
+        </ul>
     </div>
 </header>
 
@@ -163,6 +229,19 @@
     const emailInput = document.getElementById('emailField');
     const emailError = document.getElementById('emailError');
     const form = document.getElementById('feedbackForm');
+
+    /* ── Mobile menu ── */
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+        document.querySelector('.nav-menu').classList.toggle('active');
+    });
+
+    document.addEventListener('click', function (event) {
+        const menu = document.querySelector('.nav-menu');
+        const button = document.querySelector('.mobile-menu-btn');
+        if (!menu.contains(event.target) && !button.contains(event.target)) {
+            menu.classList.remove('active');
+        }
+    });
 
     /* ── Phone formatting ── */
     phoneInput.addEventListener('focus', function () {
